@@ -68,3 +68,29 @@ class User(AbstractBaseUser, PermissionsMixin):
     # 管理画面等でユーザーオブジェクトを表示する際に使われる
     def __str__(self):
         return self.email
+
+
+# Profileクラス
+class Profile(models.Model):
+    nickName = models.CharField(max_length=20)
+
+    user = models.OneToOneField(
+        settings.AUTH_USER_MODEL, related_name='profile',
+        on_delete=models.CASCADE
+    )
+
+    # プロファイルが作成された日時を保存するフィールド。DateTimeFieldは日時を保存するフィールド
+    # auto_now_addパラメータ：Trueにすることで、レコードが作成されるときの日時を自動的にこのフィールドに保存する
+    created_on = models.DateTimeField(auto_now_add=True)
+
+    # 画像を保存するためのフィールド
+    # blankパラメータ：Trueにすることでこのフィールドの入力が任意になります。
+    # nullパラメータ：Trueにすることで、このフィールドがデータベースにおいてNULL値を取ることを許容します。
+    # upload_toパラメータは画像ファイルのアップロード先を指定するためのもの(上記で記載)
+    img = models.ImageField(blank=True, null=True, upload_to=upload_avatar_path)
+
+
+
+    def __str__(self):
+        # __str__メソッドを定義します。このメソッドはオブジェクトを文字列として表現するためのもので、ここではユーザーのニックネームを返します。
+        return self.nickName
