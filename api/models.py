@@ -47,3 +47,24 @@ class UserManager(BaseUserManager):
         # 作成したユーザーインスタンスを返す
         return user
 
+
+# ユーザーモデルの作成
+class User(AbstractBaseUser, PermissionsMixin):
+
+    email = models.EmailField(max_length=58, unique=True)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+
+    # 上記で定義したUserManagerを使用してユーザーマネージャを作成
+    # Userモデルにcreate_userメソッドやcreate_superuserメソッドが追加される
+    objects = UserManager()
+
+    # ユーザーモデルでユニークで必須のフィールドを指定。
+    # 今回は'email'を指定して、ユーザーネームの代わりにメールアドレスを使用
+    USERNAME_FIELD = 'email'
+
+    # __str__メソッドを定義
+    # このメソッドはオブジェクトを文字列として表現するためのもので、ここではユーザーのemailを返す
+    # 管理画面等でユーザーオブジェクトを表示する際に使われる
+    def __str__(self):
+        return self.email
