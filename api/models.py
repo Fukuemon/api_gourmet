@@ -25,3 +25,25 @@ class UserManager(BaseUserManager):
 
         # 作成したユーザーインスタンスを返す
         return user
+
+    # create_superuserメソッドを定義
+    # emailとpasswordを引数に取り、管理者権限を持つユーザーを作成する
+    def create_superuser(self, email, password):
+
+        # 既に定義されているcreate_userメソッドを利用して、ユーザーのインスタンスを作成
+        user = self.create_user(email, password)
+
+        # ユーザーのis_staffフラグをTrueに設定
+        # is_staff：ユーザーが管理サイトにアクセスできるかどうかを制御するためのフラグ
+        user.is_staff = True
+
+        # ユーザーのis_superuserフラグをTrueに設定
+        # is_superuser：ユーザーがすべてのオブジェクトと設定に対して全ての権限を持つかどうかを制御するためのフラグ
+        user.is_superuser = True
+
+        # フラグの変更を保存し、ユーザーインスタンスをデータベースに保存
+        user.save(using=self._db)
+
+        # 作成したユーザーインスタンスを返す
+        return user
+
