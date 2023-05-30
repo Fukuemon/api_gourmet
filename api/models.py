@@ -4,6 +4,16 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.conf import settings
 # Create your models here.
 
+def upload_avatar_path(instance, filename):
+    ext = filename.split('.')[-1]
+
+    # 保存先のファイルパスを生成
+    # 生成されたファイルパスは 'avatars/{ユーザープロファイルのID}{ニックネーム}.{拡張子}'という形式になる
+    return '/'.join(['avatars', str(instance.userProfile.id) + str(instance.nickName) + str(".") + str(ext)])
+
+
+
+
 # UserManagerクラス
 class UserManager(BaseUserManager):
     # create_userメソッドを定義(djangoの方で定義されてる)
