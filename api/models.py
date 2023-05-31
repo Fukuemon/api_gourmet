@@ -104,3 +104,31 @@ class Profile(models.Model):
     def __str__(self):
         # __str__メソッドを定義します。このメソッドはオブジェクトを文字列として表現するためのもので、ここではユーザーのニックネームを返します。
         return self.nickName
+
+
+# 投稿(記録)モデルの作成
+# 評価を星で表示
+SCORE_CHOICES = [
+    (1, '★'),
+    (2, '★★'),
+    (3, '★★★'),
+    (4, '★★★★'),
+    (5, '★★★★★'),
+]
+
+class Post(models.Model):
+    created_on = models.DateTimeField(auto_now_add=True)  # 日付
+    author = models.ForeignKey(  # 投稿者(多対1の関係で紐づく)
+        settings.AUTH_USER_MODEL, related_name="posts",
+        on_delete=models.CASCADE
+    )
+    restaurant_name = models.CharField(max_length=200)  # 店舗名
+    location = models.CharField(max_length=200)  # 場所
+    menu_item = models.CharField(max_length=200)  # メニュー名
+    menu_item_photo = models.ImageField(upload_to='menu_photos/')  # メニュー画像
+    menu_item_3d_model = models.FileField(upload_to='menu_3d_models/')  # メニュー3Dモデル
+    price = models.IntegerField()  # 値段
+    score = models.PositiveSmallIntegerField(verbose_name='レビュースコア', choices=SCORE_CHOICES, default='3')  #評価
+    review_text = models.TextField()  # レビュー内容
+    category = models.CharField(max_length=200)  # カテゴリー
+
