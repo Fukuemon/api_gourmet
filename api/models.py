@@ -12,8 +12,6 @@ def upload_avatar_path(instance, filename):
     return '/'.join(['avatars', str(instance.userProfile.id) + str(instance.nickName) + str(".") + str(ext)])
 
 
-
-
 # UserManagerクラス
 class UserManager(BaseUserManager):
     # create_userメソッドを定義(djangoの方で定義されてる)
@@ -105,6 +103,13 @@ class Profile(models.Model):
         # __str__メソッドを定義します。このメソッドはオブジェクトを文字列として表現するためのもので、ここではユーザーのニックネームを返します。
         return self.nickName
 
+# 店舗のモデル作成
+class Restaurant(models.Model):
+    name = models.CharField(max_length=200) #店舗名
+    location = models.CharField(max_length=200) #店舗の場所
+
+    def __str__(self):
+        return self.name
 
 # 投稿(記録)モデルの作成
 # 評価を星で表示
@@ -118,15 +123,17 @@ SCORE_CHOICES = [
 
 class Post(models.Model):
     created_on = models.DateTimeField(auto_now_add=True)  # 日付
-    author = models.ForeignKey(  # 投稿者(多対1の関係で紐づく)
+    author = models.ForeignKey(  # 投稿者(1対1の関係で紐づく)
         settings.AUTH_USER_MODEL, related_name="posts",
         on_delete=models.CASCADE
     )
-    restaurant_name = models.CharField(max_length=200)  # 店舗名
-    location = models.CharField(max_length=200)  # 場所
+    restaurant = models.ForeignKey(  # 店舗情報(1対1の関係で紐づく)
+        Restaurant, related_name="posts",
+        on_delete=models.CASCADE
+    )
     menu_item = models.CharField(max_length=200)  # メニュー名
-    menu_item_photo = models.ImageField(upload_to='menu_photos/')  # メニュー画像
-    menu_item_3d_model = models.FileField(upload_to='menu_3d_models/')  # メニュー3Dモデル
+    menu_item_photo = models.ImageField(upload_to=upload_post_path)  # メニュー画像
+    menu_item_3d_model = models.FileField(upload_to=upload_3dpost_path)  # メニュー3Dモデル
     price = models.IntegerField()  # 値段
     score = models.PositiveSmallIntegerField(verbose_name='レビュースコア', choices=SCORE_CHOICES, default='3')  #評価
     review_text = models.TextField()  # レビュー内容
