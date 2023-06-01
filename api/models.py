@@ -89,7 +89,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 class Profile(models.Model):
     nickName = models.CharField(max_length=20)
 
-    user = models.OneToOneField(
+    userProfile = models.OneToOneField(
         settings.AUTH_USER_MODEL, related_name='profile',
         on_delete=models.CASCADE
     )
