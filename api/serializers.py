@@ -37,3 +37,21 @@ class ProfileSerializer(serializers.ModelSerializer):
         # userProfileフィールドが読み取り専用（'read_only': True）であることを指定
         # Django側で自動でユーザの割り当てを行うようにする
         extra_kwargs = {'userProfile': {'read_only': True}}
+
+class RestaurantSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Restaurant
+        fields = ('id', 'name', 'location')
+
+class CategorySerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Category
+        fields = ('id', 'name')
+
+class PostSerializer(serializers.ModelSerializer):
+    created_on = serializers.DateTimeField(format="%Y-%%m-%d", read_only=True)
+    class Meta:
+        model = Post
+        fields = ('id', 'author', 'restaurant', 'category', 'menu_item', 'score', 'price', 'menu_item_photo',
+                  'menu_item_model', 'review_text')
+        extra_kwargs = {'author': {'read_only': True}}
