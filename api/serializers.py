@@ -49,9 +49,9 @@ class CategorySerializer(serializers.ModelSerializer):
         fields = ('id', 'name')
 
 class PostSerializer(serializers.ModelSerializer):
-    created_on = serializers.DateTimeField(format="%Y-%%m-%d", read_only=True)
+    created_on = serializers.DateTimeField(format="%Y-%m-%d", read_only=True)
     class Meta:
         model = Post
-        fields = ('id', 'author', 'restaurant', 'category', 'menu_item', 'score', 'price', 'menu_item_photo',
+        fields = ('id', 'created_on', 'author', 'restaurant', 'category', 'menu_item', 'score', 'price', 'menu_item_photo',
                   'menu_item_model', 'review_text')
         extra_kwargs = {'author': {'read_only': True}}

@@ -13,11 +13,11 @@ def upload_avatar_path(instance, filename):
 
 def upload_post_path(instance, filename):
     ext = filename.split('.')[-1]
-    return '/'.join(['posts', str(instance.userPost.id) + str(instance.menu_item) + str(".") + str(ext)])
+    return '/'.join(['posts', str(instance.author.id) + str(instance.menu_item) + str(".") + str(ext)])
 
 def upload_model_path(instance, filename):
     ext = filename.split('.')[-1]
-    return '/'.join(['models', str(instance.userPost.id) + str(instance.menu_item) + str(".") + str(ext)])
+    return '/'.join(['models', str(instance.author.id) + str(instance.menu_item) + str(".") + str(ext)])
 
 # UserManagerクラス
 class UserManager(BaseUserManager):

@@ -84,12 +84,12 @@ WSGI_APPLICATION = 'api_gourmet.wsgi.application'
 # djangoの認証関係
 REST_FRAMEWORK = {
     # viewを特定のユーザにだけ見せるようにする
-    'DEFAULT_PERMISSION_CLASS': [
+    'DEFAULT_PERMISSION_CLASSES': [
         'rest_framework.permissions.IsAuthenticated',
     ],
     # 認証方法を指定する
-    'DEFAULT_AUTHENTICATION_CLASS': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication'
     ]
 }
 
