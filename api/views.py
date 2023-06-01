@@ -33,6 +33,15 @@ class MyProfileListView(generics.ListAPIView):
     def get_queryset(self):
         return self.queryset.filter(userProfile=self.request.user)
 
+# RestaurantViewSet：店舗情報に対するCRUD（Create, Read, Update, Delete）操作を提供するAPIエンドポイント
+class RestaurantViewSet(viewsets.ModelViewSet):
+    queryset = Restaurant.objects.all()
+    serializer_class = serializers.RestaurantSerializer
+
+# CategoryViewSet：カテゴリーに対するCRUD（Create, Read, Update, Delete）操作を提供するAPIエンドポイント
+class CategoryViewSet(viewsets.ModelViewSet):
+    queryset = Category.objects.all()
+    serializer_class = serializers.CategorySerializer
 
 # PostViewSet：投稿に対するCRUD（Create, Read, Update, Delete）操作を提供するAPIエンドポイント
 class PostViewSet(viewsets.ModelViewSet):
@@ -40,4 +49,4 @@ class PostViewSet(viewsets.ModelViewSet):
     serializer_class = serializers.PostSerializer
 
     def perform_create(self, serializer):
-        serializer.save(userPost=self.request.user)
+        serializer.save(author=self.request.user)
