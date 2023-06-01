@@ -110,6 +110,13 @@ class Profile(models.Model):
         # __str__メソッドを定義します。このメソッドはオブジェクトを文字列として表現するためのもので、ここではユーザーのニックネームを返します。
         return self.nickName
 
+# カテゴリーのモデル作成
+class Category(models.Model):
+    name = models.CharField( max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
 # 店舗のモデル作成
 class Restaurant(models.Model):
     name = models.CharField(max_length=200)  # 店舗名
@@ -117,6 +124,7 @@ class Restaurant(models.Model):
 
     def __str__(self):
         return self.name
+
 
 # 投稿(記録)モデルの作成
 # 評価を星で表示
@@ -138,13 +146,15 @@ class Post(models.Model):
         Restaurant, related_name="posts",
         on_delete=models.CASCADE
     )
+    category = models.ManyToManyField(  # カテゴリー(多対多の関係で紐づく)
+        Category, related_name="posts",
+    )
     menu_item = models.CharField(max_length=200)  # メニュー名
-    menu_item_photo = models.ImageField(upload_to=upload_post_path)  # メニュー画像
-    menu_item_model = models.FileField(upload_to=upload_model_path)  # メニュー3Dモデル
-    price = models.IntegerField()  # 値段
     score = models.PositiveSmallIntegerField(verbose_name='レビュースコア', choices=SCORE_CHOICES, default='3')  #評価
-    review_text = models.TextField()  # レビュー内容
-    category = models.CharField(max_length=200)  # カテゴリー
+    price = models.IntegerField()  # 値段
+    menu_item_photo = models.ImageField(upload_to=upload_post_path, blank=True, null=True)  # メニュー画像
+    menu_item_model = models.FileField(upload_to=upload_model_path, blank=True, null=True)  # メニュー3Dモデル
+    review_text = models.TextField(blank=True, null=True)  # レビュー内容
     def __str__(self):
         return self.menu_item
 
