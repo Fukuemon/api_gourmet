@@ -11,8 +11,13 @@ def upload_avatar_path(instance, filename):
     # 生成されたファイルパスは 'avatars/{ユーザープロファイルのID}{ニックネーム}.{拡張子}'という形式になる
     return '/'.join(['avatars', str(instance.userProfile.id) + str(instance.nickName) + str(".") + str(ext)])
 
+def upload_post_path(instance, filename):
+    ext = filename.split('.')[-1]
+    return '/'.join(['posts', str(instance.userPost.id) + str(instance.menu_item) + str(".") + str(ext)])
 
-
+def upload_model_path(instance, filename):
+    ext = filename.split('.')[-1]
+    return '/'.join(['models', str(instance.userPost.id) + str(instance.menu_item) + str(".") + str(ext)])
 
 # UserManagerクラス
 class UserManager(BaseUserManager):
@@ -104,3 +109,52 @@ class Profile(models.Model):
     def __str__(self):
         # __str__メソッドを定義します。このメソッドはオブジェクトを文字列として表現するためのもので、ここではユーザーのニックネームを返します。
         return self.nickName
+
+# カテゴリーのモデル作成
+class Category(models.Model):
+    name = models.CharField( max_length=50, unique=True)
+
+    def __str__(self):
+        return self.name
+
+# 店舗のモデル作成
+class Restaurant(models.Model):
+    name = models.CharField(max_length=200)  # 店舗名
+    location = models.CharField(max_length=200)  # 店舗の場所
+
+    def __str__(self):
+        return self.name
+
+
+# 投稿(記録)モデルの作成
+# 評価を星で表示
+SCORE_CHOICES = [
+    (1, '★'),
+    (2, '★★'),
+    (3, '★★★'),
+    (4, '★★★★'),
+    (5, '★★★★★'),
+]
+
+class Post(models.Model):
+    created_on = models.DateTimeField(auto_now_add=True)  # 日付
+    author = models.ForeignKey(  # 投稿者(1対1の関係で紐づく)
+        settings.AUTH_USER_MODEL, related_name="posts",
+        on_delete=models.CASCADE
+    )
+    restaurant = models.ForeignKey(  # 店舗情報(1対1の関係で紐づく)
+        Restaurant, related_name="posts",
+        on_delete=models.CASCADE
+    )
+    category = models.ManyToManyField(  # カテゴリー(多対多の関係で紐づく)
+        Category, related_name="posts",
+    )
+    menu_item = models.CharField(max_length=200)  # メニュー名
+    score = models.PositiveSmallIntegerField(verbose_name='レビュースコア', choices=SCORE_CHOICES, default='3')  #評価
+    price = models.IntegerField()  # 値段
+    menu_item_photo = models.ImageField(upload_to=upload_post_path, blank=True, null=True)  # メニュー画像
+    menu_item_model = models.FileField(upload_to=upload_model_path, blank=True, null=True)  # メニュー3Dモデル
+    review_text = models.TextField(blank=True, null=True)  # レビュー内容
+    def __str__(self):
+        return self.menu_item
+
