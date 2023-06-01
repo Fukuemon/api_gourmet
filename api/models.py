@@ -11,6 +11,13 @@ def upload_avatar_path(instance, filename):
     # 生成されたファイルパスは 'avatars/{ユーザープロファイルのID}{ニックネーム}.{拡張子}'という形式になる
     return '/'.join(['avatars', str(instance.userProfile.id) + str(instance.nickName) + str(".") + str(ext)])
 
+def upload_post_path(instance, filename):
+    ext = filename.split('.')[-1]
+    return '/'.join(['posts', str(instance.userPost.id) + str(instance.menu_item) + str(".") + str(ext)])
+
+def upload_model_path(instance, filename):
+    ext = filename.split('.')[-1]
+    return '/'.join(['models', str(instance.userPost.id) + str(instance.menu_item) + str(".") + str(ext)])
 
 # UserManagerクラス
 class UserManager(BaseUserManager):
@@ -105,8 +112,8 @@ class Profile(models.Model):
 
 # 店舗のモデル作成
 class Restaurant(models.Model):
-    name = models.CharField(max_length=200) #店舗名
-    location = models.CharField(max_length=200) #店舗の場所
+    name = models.CharField(max_length=200)  # 店舗名
+    location = models.CharField(max_length=200)  # 店舗の場所
 
     def __str__(self):
         return self.name
@@ -133,9 +140,11 @@ class Post(models.Model):
     )
     menu_item = models.CharField(max_length=200)  # メニュー名
     menu_item_photo = models.ImageField(upload_to=upload_post_path)  # メニュー画像
-    menu_item_3d_model = models.FileField(upload_to=upload_3dpost_path)  # メニュー3Dモデル
+    menu_item_model = models.FileField(upload_to=upload_model_path)  # メニュー3Dモデル
     price = models.IntegerField()  # 値段
     score = models.PositiveSmallIntegerField(verbose_name='レビュースコア', choices=SCORE_CHOICES, default='3')  #評価
     review_text = models.TextField()  # レビュー内容
     category = models.CharField(max_length=200)  # カテゴリー
+    def __str__(self):
+        return self.menu_item
 
