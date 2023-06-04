@@ -154,6 +154,7 @@ AUTH_USER_MODEL = 'api.User'
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = str(BASE_DIR / 'staticfiles')
 # 画像の格納先を指定
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
