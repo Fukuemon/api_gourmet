@@ -8,6 +8,7 @@ django-templated-mail==1.1.1
 djangorestframework==3.10.0
 djangorestframework-simplejwt==4.6.0
 djoser==2.1.0
+Pillow==9.5.0
 PyJWT==2.0.0
 python-decouple==3.3
 pytz==2023.3
