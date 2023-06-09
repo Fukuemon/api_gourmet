@@ -155,7 +155,7 @@ AUTH_USER_MODEL = 'api.User'
 
 # GoogleCloudStorage settings
 GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
-    os.environ['GOOGLE_APPLICATION_CREDENTIALS']
+    os.path.join(BASE_DIR, 'GOOGLE_CREDENTIALS_JSON')
 )
 
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
