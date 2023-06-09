@@ -166,7 +166,6 @@ GS_PROJECT_ID = 'gourmet-review'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-
 STATIC_URL = 'https://storage.googleapis.com/ar-gourmet-app/'
 STATIC_ROOT = str(BASE_DIR / 'staticfiles')
 # 画像の格納先を指定
