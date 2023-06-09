@@ -170,5 +170,5 @@ STATIC_URL = 'https://storage.googleapis.com/ar-gourmet-app/'
 STATIC_ROOT = str(BASE_DIR / 'staticfiles')
 # 画像の格納先を指定
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-MEDIA_URL = '/media/'
+MEDIA_URL = 'https://storage.googleapis.com/{}/'.format(GS_BUCKET_NAME)
 
