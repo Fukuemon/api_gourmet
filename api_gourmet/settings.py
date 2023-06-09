@@ -14,6 +14,7 @@ from pathlib import Path
 from datetime import timedelta
 import dj_database_url
 import os
+from google.oauth2 import service_account
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'djoser',
     'api.apps.ApiConfig',
+    'storages',
     'corsheaders'
 ]
 
@@ -151,10 +153,21 @@ USE_TZ = True
 # djangoのデフォルトのユーザモデルをemail仕様にoverrideしたため、その設定
 AUTH_USER_MODEL = 'api.User'
 
+# GoogleCloudStorage settings
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+    os.environ['GOOGLE_APPLICATION_CREDENTIALS']
+)
+
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+GS_BUCKET_NAME = 'ar-gourmet-app'
+GS_PROJECT_ID = 'gourmet-review'
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
-STATIC_URL = '/static/'
+
+STATIC_URL = 'https://storage.googleapis.com/ar-gourmet-app/'
 STATIC_ROOT = str(BASE_DIR / 'staticfiles')
 # 画像の格納先を指定
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
