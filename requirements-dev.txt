@@ -2,10 +2,10 @@ asgiref==3.6.0
 certifi==2020.12.5
 dj-database-url==0.5.0
 dj-static==0.0.6
-Django==3.2.19
+Django==3.0.7
 django-cors-headers==3.4.0
 django-templated-mail==1.1.1
-djangorestframework==3.12.0
+djangorestframework==3.10.0
 djangorestframework-simplejwt==4.6.0
 djoser==2.1.0
 Pillow==9.5.0
@@ -14,5 +14,5 @@ python-decouple==3.3
 pytz==2023.3
 sqlparse==0.4.4
 static3==0.7.0
-google-cloud-storage==2.9.0
-django-storages==1.13.2
+google-cloud-storage==1.26.0
+django-storages==1.9.0
