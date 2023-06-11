@@ -37,11 +37,13 @@ class MyProfileListView(generics.ListAPIView):
 class RestaurantViewSet(viewsets.ModelViewSet):
     queryset = Restaurant.objects.all()
     serializer_class = serializers.RestaurantSerializer
+    permission_classes = (AllowAny,)
 
 # CategoryViewSet：カテゴリーに対するCRUD（Create, Read, Update, Delete）操作を提供するAPIエンドポイント
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = serializers.CategorySerializer
+    permission_classes = (AllowAny,)
 
 # PostViewSet：投稿に対するCRUD（Create, Read, Update, Delete）操作を提供するAPIエンドポイント
 class PostViewSet(viewsets.ModelViewSet):
@@ -50,3 +52,15 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+# 投稿一覧取得(誰でもアクセス可能)
+class PostListView(generics.ListAPIView):
+    queryset = Post.objects.all()
+    serializer_class = serializers.PostSerializer
+    permission_classes = (AllowAny,)
+
+class PostDetailView(generics.RetrieveAPIView):
+    queryset = Post.objects.all()
+    serializer_class = serializers.PostSerializer
+    permission_classes = (AllowAny,)
+

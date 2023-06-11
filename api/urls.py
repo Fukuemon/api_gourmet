@@ -19,6 +19,11 @@ urlpatterns = [
     path('register/', views.CreateUserView.as_view(), name='register'),
     # '/myprofile/'パスへのリクエストをMyProfileListViewビューにマッピングし、このパスを'myprofile'という名前で参照できるようにする
     path('myprofile/', views.MyProfileListView.as_view(), name='myprofile'),
+    # 投稿一覧
+    path('post_list/', views.PostListView.as_view(), name='postlist'),
+    # 投稿詳細
+    path('post_detail/<str:pk>/', views.PostDetailView(), name="postdetail"),
     # ルーターに登録されたすべてのパスをルートURL（''）に含める、これにより上記で登録したパス（'profile', 'post', 'comment'）がURLとして使えるようになる
     path('',include(router.urls))
+
 ]
