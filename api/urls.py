@@ -22,8 +22,7 @@ urlpatterns = [
     # 投稿一覧
     path('post_list/', views.PostListView.as_view(), name='postlist'),
     # 投稿詳細
-    path('post_detail/<str:pk>/', views.PostDetailView(), name="postdetail"),
+    path('post_detail/<str:pk>/', views.PostDetailView.as_view(), name="postdetail"),
     # ルーターに登録されたすべてのパスをルートURL（''）に含める、これにより上記で登録したパス（'profile', 'post', 'comment'）がURLとして使えるようになる
-    path('',include(router.urls))
-
+    path('',include(router.urls)),
 ]
