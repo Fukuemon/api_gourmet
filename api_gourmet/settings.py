@@ -63,7 +63,8 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_WHITELIST = [
     "http://localhost:3000",
-    "https://ar-gourmet-review.vercel.app"
+    "https://ar-gourmet-review.vercel.app",
+    "https://gourmet-ar-reviewapp.vercel.app/"
 ]
 
 
